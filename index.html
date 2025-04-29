@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔥 FURIA Fan Chatbot 🔥</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            background-color: #1f1f1f;
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            color: #9b59b6;
+        }
+        #chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            margin: 0.5rem 0;
+            padding: 0.75rem;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+        .bot {
+            background-color: #333;
+            align-self: flex-start;
+        }
+        .user {
+            background-color: #9b59b6;
+            align-self: flex-end;
+        }
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+        #quickReplies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background-color: #1f1f1f;
+            padding: 0.5rem;
+            justify-content: center;
+        }
+        .quickBtn {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        .quickBtn:hover {
+            background-color: #8e44ad;
+        }
+        #InputArea {
+            display: flex;
+            padding: 1rem;
+            background-color: #1f1f1f;
+        }
+        #userInput {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            margin-right: 0.5rem;
+        }
+        #sendButton {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #sendButton:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+
+<header>🔥 FURIA Fan Chatbot 🔥</header>
+
+<div id="chat">
+    <div class="message bot">Seja Bem-Vindo, Fã da FURIA! 🇧🇷<br>Em que posso te ajudar hoje?</div>
+</div>
+
+<div id="quickReplies">
+    <button class="quickBtn">⚡ Escalação</button>
+    <button class="quickBtn">🗓️ Próximos Jogos</button>
+    <button class="quickBtn">🎯 Últimos Resultados</button>
+    <button class="quickBtn">🐾 Curiosidades</button>
+    <button class="quickBtn">🛒 Loja</button>
+</div>
+
+<div id="InputArea">
+    <input type="text" id="userInput" placeholder="Digite sua mensagem..." autofocus>
+    <button id="sendButton">Enviar</button>
+</div>
+
+<script>
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('userInput');
+    const sendButton = document.getElementById('sendButton');
+
+    const baseResposta = {
+        "escalação": "Escalação atual da FURIA (2025):<br>🇧🇷 FalleN (Capitão)<br>🇧🇷 yuurih<br>🇧🇷 KSCERATO<br>🇧🇷 molodoy<br>🇧🇷 YEKINDAR (Stand-in)<br>🇧🇷 sidde (Treinador)",
+        "próximos jogos": "Próximos jogos da FURIA:<br>🗓️ 30/04 - FURIA vs Vitality (BLAST Rivals Spring 2025)<br>🗓️ 02/05 - FURIA vs NAVI (ESL Pro League)",
+        "últimos resultados": "Últimos resultados da FURIA:<br>🔥 Vitória sobre Nemiga por 2-1 (BLAST Bounty 2025)<br>🔥 Vitória sobre Wildcard por 2-0 (IEM Katowice 2025)",
+        "curiosidades": "Curiosidade: A FURIA já esteve no Top 5 mundial em 2020! 🐾",
+        "loja": "Acesse a loja oficial da FURIA: <a href='https://furia.gg' target='_blank'>loja.furia.gg</a> 🛒"
+    };
+
+    function normalizarString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+
+    function adicionarMensagem(texto, classe, avatar = false) {
+        const msg = document.createElement('div');
+        msg.className = `message ${classe}`;
+
+        if (avatar && classe === 'bot') {
+            const avatarImg = document.createElement('div');
+            avatarImg.className = 'avatar';
+            avatarImg.style.backgroundImage = "url('furia-logo.png')";
+            msg.appendChild(avatarImg);
+        }
+
+        const span = document.createElement('span');
+        span.innerHTML = texto;
+        msg.appendChild(span);
+
+        chat.appendChild(msg);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function buscarResposta(pergunta) {
+        const perguntaNormalizada = normalizarString(pergunta);
+
+        if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite"].includes(perguntaNormalizada)) {
+            return "Olá, no que eu posso te ajudar hoje? 👋";
+        }
+
+        for (let chave in baseResposta) {
+            if (perguntaNormalizada.includes(normalizarString(chave))) {
+                return baseResposta[chave];
+            }
+        }
+
+        return "Desculpe, não encontrei essa informação. 😢 Pergunte sobre 'Escalação', 'Próximos jogos', 'Últimos resultados', 'Curiosidades' ou 'Loja'.";
+    }
+
+    async function processarEntrada() {
+        const texto = userInput.value.trim();
+        if (texto === "") return;
+
+        adicionarMensagem(userInput.value, 'user');
+
+        const resposta = await buscarResposta(texto);
+
+        setTimeout(() => {
+            adicionarMensagem(resposta, 'bot', true);
+        }, 300);
+
+        userInput.value = "";
+    }
+
+    sendButton.addEventListener('click', processarEntrada);
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            processarEntrada();
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.quickBtn').forEach(button => {
+            button.addEventListener('click', () => {
+                const textoBotao = button.textContent.trim();
+                userInput.value = textoBotao;
+                processarEntrada();
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
