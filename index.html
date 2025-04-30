@@ -4,24 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔥 FURIA Fan Chatbot 🔥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #0d0d0d;
             color: #ffffff;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
+
         header {
             background-color: #1f1f1f;
             padding: 1rem;
             text-align: center;
             font-size: 1.5rem;
-            color: #9b59b6;
+            color: #2385FE;
+            font-weight: 600;
         }
+
         #chat {
             flex: 1;
             overflow-y: auto;
@@ -29,72 +33,104 @@
             display: flex;
             flex-direction: column;
         }
+
         .message {
             margin: 0.5rem 0;
-            padding: 0.75rem;
-            border-radius: 10px;
+            padding: 1rem;
+            border-radius: 12px;
             max-width: 70%;
+            transition: transform 0.2s ease;
         }
-        .bot {
+
+        .message.bot {
             background-color: #333;
             align-self: flex-start;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
-        .user {
-            background-color: #9b59b6;
+
+        .message.user {
+            background-color: #2385FE;
             align-self: flex-end;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
-        .avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-            background-size: cover;
-            background-position: center;
+
+        .logo-centralizado {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
         }
+
+        .logo-centralizado img {
+            width: 120px;
+            height: auto;
+        }
+
         #quickReplies {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
             background-color: #1f1f1f;
-            padding: 0.5rem;
+            padding: 1rem;
             justify-content: center;
         }
+
         .quickBtn {
-            background-color: #9b59b6;
+            background-color: #2385FE;
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: background-color 0.3s;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.2s ease, background-color 0.3s;
         }
+
         .quickBtn:hover {
-            background-color: #8e44ad;
+            background-color: #004DAD;
+            transform: scale(1.05);
         }
+
         #InputArea {
             display: flex;
             padding: 1rem;
             background-color: #1f1f1f;
+            border-top: 1px solid #333;
         }
+
         #userInput {
             flex: 1;
             padding: 0.75rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             margin-right: 0.5rem;
+            background-color: #333;
+            color: white;
+            transition: box-shadow 0.3s ease, border 0.3s ease;
         }
+
+        #userInput:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(35, 133, 254, 0.6);
+            border: 2px solid #2385FE;
+        }
+
         #sendButton {
             background-color: #27ae60;
             color: white;
             border: none;
-            padding: 0.75rem 1rem;
-            border-radius: 5px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
             cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         #sendButton:hover {
             background-color: #2ecc71;
+            transform: scale(1.05);
         }
+
     </style>
 </head>
 <body>
@@ -135,16 +171,9 @@
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     }
 
-    function adicionarMensagem(texto, classe, avatar = false) {
+    function adicionarMensagem(texto, classe = false) {
         const msg = document.createElement('div');
         msg.className = `message ${classe}`;
-
-        if (avatar && classe === 'bot') {
-            const avatarImg = document.createElement('div');
-            avatarImg.className = 'avatar';
-            avatarImg.style.backgroundImage = "url('furia-logo.png')";
-            msg.appendChild(avatarImg);
-        }
 
         const span = document.createElement('span');
         span.innerHTML = texto;
@@ -157,7 +186,7 @@
     async function buscarResposta(pergunta) {
         const perguntaNormalizada = normalizarString(pergunta);
 
-        if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite"].includes(perguntaNormalizada)) {
+        if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite, escalação, próximos jogos, proximos jogos, ultimos resultados, últimos resultados, curiosidades, Curiosidades, loja, Loja"].includes(perguntaNormalizada)) {
             return "Olá, no que eu posso te ajudar hoje? 👋";
         }
 
@@ -179,7 +208,7 @@
         const resposta = await buscarResposta(texto);
 
         setTimeout(() => {
-            adicionarMensagem(resposta, 'bot', true);
+            adicionarMensagem(resposta, 'bot');
         }, 300);
 
         userInput.value = "";
@@ -193,6 +222,8 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
+        
+
         document.querySelectorAll('.quickBtn').forEach(button => {
             button.addEventListener('click', () => {
                 const textoBotao = button.textContent.trim();
