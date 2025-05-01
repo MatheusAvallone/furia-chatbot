@@ -16,6 +16,7 @@
     <div class="message bot">Seja Bem-Vindo, Fã da FURIA! 🇧🇷<br>Em que posso te ajudar hoje?</div>
 </div>
 
+
 <div id="quickReplies">
     <button class="quickBtn">⚡ Escalação</button>
     <button class="quickBtn">🗓️ Próximos Jogos</button>
@@ -61,7 +62,8 @@
     async function buscarResposta(pergunta) {
         const perguntaNormalizada = normalizarString(pergunta);
 
-        if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite, escalação, próximos jogos, proximos jogos, ultimos resultados, últimos resultados, curiosidades, Curiosidades, loja, Loja"].includes(perguntaNormalizada)) {
+        if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite, escalação, próximos jogos, proximos jogos, ultimos resultados, últimos resultados,"+ 
+        "curiosidades, Curiosidades, loja, Loja"].includes(perguntaNormalizada)) {
             return "Olá, no que eu posso te ajudar hoje? 👋";
         }
 
