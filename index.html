@@ -36,7 +36,7 @@
     const sendButton = document.getElementById('sendButton');
 
     const baseResposta = {
-        "escalação": "Escalação atual da FURIA (2025):<br>🇧🇷 FalleN (Capitão)<br>🇧🇷 yuurih<br>🇧🇷 KSCERATO<br>🇧🇷 molodoy<br>🇧🇷 YEKINDAR (Stand-in)<br>🇧🇷 sidde (Treinador)",
+        "escalação": "Escalação atual da FURIA (2025):<br>🇧🇷 FalleN (Capitão)<br>🇧🇷 yuurih<br>🇧🇷 KSCERATO<br>KZ molodoy<br>LV YEKINDAR<br>🇧🇷 sidde (Treinador)",
         "próximos jogos": "Próximos jogos da FURIA:<br>🗓️ 30/04 - FURIA vs Vitality (BLAST Rivals Spring 2025)<br>🗓️ 02/05 - FURIA vs NAVI (ESL Pro League)",
         "últimos resultados": "Últimos resultados da FURIA:<br>🔥 Vitória sobre Nemiga por 2-1 (BLAST Bounty 2025)<br>🔥 Vitória sobre Wildcard por 2-0 (IEM Katowice 2025)",
         "curiosidades": "Curiosidade: A FURIA já esteve no Top 8 mundial em 2020! 🐾",
@@ -63,7 +63,7 @@
         const perguntaNormalizada = normalizarString(pergunta);
 
         if (["oi", "ola", "olá", "e ai", "e aí", "bom dia", "boa tarde", "boa noite, escalação, próximos jogos, proximos jogos, ultimos resultados, últimos resultados,"+ 
-        "curiosidades, Curiosidades, loja, Loja"].includes(perguntaNormalizada)) {
+        "curiosidades, Curiosidades, curiosidade, Curiosidade, loja, Loja"].includes(perguntaNormalizada)) {
             return "Olá, no que eu posso te ajudar hoje? 👋";
         }
 
